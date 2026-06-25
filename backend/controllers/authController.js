@@ -46,6 +46,7 @@ const loginUser = async (req,res) =>{
       message: "Invalid Credentials",
     })
   }const checkPass= await bcrypt.compare(password,user.password)
+
   if(!checkPass){
     return res.status(400).json({
       message: "Invalid Credentials",
@@ -64,8 +65,16 @@ const loginUser = async (req,res) =>{
   }
 }
 
+const getProfile = async (req,res) =>{
+  profile=req.user
+  res.status(200).json({
+    message: "Profile fetched successfully",
+    profile,
+  })
+}
 
 module.exports = {
   registerUser,
   loginUser,
+  getProfile,
 };
