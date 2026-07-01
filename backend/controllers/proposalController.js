@@ -106,10 +106,36 @@ const updateProposal = async (req,res) =>{
     });
   }
 }
+const deleteProposal = async (req, res) => {
+  try{
+     const proposal = await Proposal.findById(req.params.id)
+     if(!proposal){
+         return res.status(404).json({
+             message:"Proposal not found"
+         )}
+     }
+     const isUser = req.user._id.toString()===proposal.user.toString()
+     if(isUser){
+        const deleteProposal = await proposal.deleteOne()
+    }
+    else{
+       return res.status(403).json({
+         message : "You are not authorised to deletethe proposal"
+})
+}
+  }
+  catch(error){
+     res.status(500).json({
+       message : error.message
+     })
+   
+  }
+};
 
 module.exports = {
   createProposal,
   getProposals,
   getProposalById,
   updateProposal,
+  deleteProposal,
 };
