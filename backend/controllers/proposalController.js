@@ -112,11 +112,15 @@ const deleteProposal = async (req, res) => {
      if(!proposal){
          return res.status(404).json({
              message:"Proposal not found"
-         )}
+     })
      }
      const isUser = req.user._id.toString()===proposal.user.toString()
      if(isUser){
-        const deleteProposal = await proposal.deleteOne()
+      await proposal.deleteOne()
+
+      return res.status(200).json({
+        message : "Proposal deleted successfully"
+      })
     }
     else{
        return res.status(403).json({
