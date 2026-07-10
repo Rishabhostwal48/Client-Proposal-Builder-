@@ -1,5 +1,26 @@
-function Dashboard() {
-  return <h1>Dashboard</h1>;
-}
+import { useEffect, useState } from "react";
+import api from "../services/api";
 
+const Dashboard = () => {
+  const [proposals, setProposals] = useState([]);
+
+  const fetchProposals = async () => {
+    try {
+      const response = await api.get("/proposal/list");
+
+      console.log(response.data);
+      setProposals(response.data.proposals);
+    } catch (error) {
+      console.log(error.response?.data || error.message);
+    }
+  };
+  useEffect(() => {
+    fetchProposals();
+  }, []);
+  return proposals.map((proposal) => (
+    <div key={proposal._id}>
+      <h3>{proposal.title}</h3>
+    </div>
+  ));
+};
 export default Dashboard;
