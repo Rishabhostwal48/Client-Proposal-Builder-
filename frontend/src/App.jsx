@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import CreateProposal from "./pages/CreateProposal";
 
 const App = () => {
   return (
@@ -15,6 +16,8 @@ const App = () => {
       <Route path="/register" element={<Register />} />
 
       <Route path="/dashboard" element={<Dashboard />} />
+
+      <Route path="/create-proposal" element={<CreateProposal/>}/>
 
       <Route path="*" element={<NotFound />} />
     </Routes>
