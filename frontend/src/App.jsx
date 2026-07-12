@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import CreateProposal from "./pages/CreateProposal";
+import EditProposal from "./pages/EditProposal";
 
 const App = () => {
   return (
@@ -18,6 +19,8 @@ const App = () => {
       <Route path="/dashboard" element={<Dashboard />} />
 
       <Route path="/create-proposal" element={<CreateProposal/>}/>
+
+      <Route path="/edit-proposal/:id" element={<EditProposal/>}/>
 
       <Route path="*" element={<NotFound />} />
     </Routes>
