@@ -23,6 +23,8 @@ const Dashboard = () => {
       {proposals.map((proposal) => (
         <div key={proposal._id}>
           <h3>{proposal.title}</h3>
+          <button onClick={() => navigate(`/edit-proposal/${proposal._id}`)}>
+            Edit Proposal</button>
         </div>
       ))}
       <button onClick={() => navigate("/create-proposal")}>
