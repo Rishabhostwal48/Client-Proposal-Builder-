@@ -15,6 +15,17 @@ const Dashboard = () => {
       console.log(error.response?.data || error.message);
     }
   };
+  const handleDelete = async (id) => {
+    const confirmation = window.confirm("Are you sure you want to delete this proposal?")
+    
+      const deleteProposal = await api.delete(`/proposal/${id}`);
+      const reload = await fetchProposals();
+    if (confirmation) {
+      deleteProposal
+      
+      reload
+    }
+  }
   useEffect(() => {
     fetchProposals();
   }, []);
@@ -24,7 +35,11 @@ const Dashboard = () => {
         <div key={proposal._id}>
           <h3>{proposal.title}</h3>
           <button onClick={() => navigate(`/edit-proposal/${proposal._id}`)}>
-            Edit Proposal</button>
+            Edit Proposal
+          </button>
+          <button onClick={() => handleDelete(proposal._id)}>
+            Delete Proposal
+          </button>
         </div>
       ))}
       <button onClick={() => navigate("/create-proposal")}>
