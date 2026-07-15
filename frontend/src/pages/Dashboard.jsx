@@ -17,12 +17,10 @@ const Dashboard = () => {
   };
   const handleDelete = async (id) => {
     const confirmation = window.confirm("Are you sure you want to delete this proposal?")
-    
-      const deleteProposal = await api.delete(`/proposal/${id}`);
-      const reload = await fetchProposals();
+    const deleteProposal = await api.delete(`/proposal/${id}`);
+    const reload = await fetchProposals();
     if (confirmation) {
       deleteProposal
-      
       reload
     }
   }

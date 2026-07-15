@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import CreateProposal from "./pages/CreateProposal";
 import EditProposal from "./pages/EditProposal";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -16,11 +17,13 @@ const App = () => {
 
       <Route path="/register" element={<Register />} />
 
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
 
-      <Route path="/create-proposal" element={<CreateProposal/>}/>
+        <Route path="/create-proposal" element={<CreateProposal />} />
 
-      <Route path="/edit-proposal/:id" element={<EditProposal/>}/>
+        <Route path="/edit-proposal/:id" element={<EditProposal />} />
+      </Route>
 
       <Route path="*" element={<NotFound />} />
     </Routes>
