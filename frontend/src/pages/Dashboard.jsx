@@ -1,56 +1,152 @@
 import { useEffect, useState } from "react";
-import api from "../services/api";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 const Dashboard = () => {
-  const [proposals, setProposals] = useState([]);
   const navigate = useNavigate();
+
+  const [proposals, setProposals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // Fetch all proposals
   const fetchProposals = async () => {
     try {
+      setLoading(true);
+      setError("");
+
       const response = await api.get("/proposal/list");
 
-      console.log(response.data);
       setProposals(response.data.proposals);
     } catch (error) {
-      console.log(error.response?.data || error.message);
+      console.error(error);
+      setError("Failed to load proposals.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  // Delete proposal
   const handleDelete = async (id) => {
-    const confirmation = window.confirm("Are you sure you want to delete this proposal?")
-    const deleteProposal = await api.delete(`/proposal/${id}`);
-    const reload = await fetchProposals();
-    if (confirmation) {
-      deleteProposal
-      reload
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this proposal?"
+    );
+
+    if (!confirmation) return;
+
+    try {
+      await api.delete(`/proposal/${id}`);
+      fetchProposals();
+    } catch (error) {
+      console.error(error);
+      alert("Unable to delete proposal.");
     }
-  }
-  
- 
+  };
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   useEffect(() => {
     fetchProposals();
   }, []);
-   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+
+  // Loading State
+  if (loading) {
+    return <h2>Loading proposals...</h2>;
   }
+
+  // Error State
+  if (error) {
+    return <h2>{error}</h2>;
+  }
+
+  // Empty State
+  if (proposals.length === 0) {
+    return (
+      <div>
+        <h2>No proposals found.</h2>
+        <p>Create your first proposal.</p>
+
+        <button onClick={() => navigate("/create-proposal")}>
+          + New Proposal
+        </button>
+
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+    );
+  }
+
   return (
-    <>
+    <div>
+      <h1>Dashboard</h1>
+
+      <h3>Total Proposals : {proposals.length}</h3>
+
+      <button onClick={() => navigate("/create-proposal")}>
+        + New Proposal
+      </button>
+
       <button onClick={handleLogout}>Logout</button>
+
+      <hr />
+
       {proposals.map((proposal) => (
-        <div key={proposal._id}>
-          <h3>{proposal.title}</h3>
-          <button onClick={() => navigate(`/edit-proposal/${proposal._id}`)}>
-            Edit Proposal
+        <div
+          key={proposal._id}
+          style={{
+            border: "1px solid #ccc",
+            padding: "15px",
+            marginBottom: "15px",
+            borderRadius: "8px",
+          }}
+        >
+          <h2>{proposal.title}</h2>
+
+          <p>
+            <strong>Client:</strong> {proposal.clientName}
+          </p>
+
+          <p>
+            <strong>Email:</strong> {proposal.clientEmail}
+          </p>
+
+          <p>
+            <strong>Description:</strong> {proposal.projectDescription}
+          </p>
+
+          <p>
+            <strong>Price:</strong> ₹{proposal.price}
+          </p>
+
+          <p>
+            <strong>Timeline:</strong> {proposal.timeline}
+          </p>
+
+          <p>
+            <strong>Status:</strong> {proposal.status}
+          </p>
+
+          <button
+            onClick={() =>
+              navigate(`/edit-proposal/${proposal._id}`)
+            }
+          >
+            Edit
           </button>
-          <button onClick={() => handleDelete(proposal._id)}>
-            Delete Proposal
+
+          <button
+            onClick={() => handleDelete(proposal._id)}
+            style={{ marginLeft: "10px" }}
+          >
+            Delete
           </button>
         </div>
       ))}
-      <button onClick={() => navigate("/create-proposal")}>
-        Create Proposal
-      </button>
-    </>
+    </div>
   );
 };
+
 export default Dashboard;
