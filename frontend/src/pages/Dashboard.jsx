@@ -24,11 +24,18 @@ const Dashboard = () => {
       reload
     }
   }
+  
+ 
   useEffect(() => {
     fetchProposals();
   }, []);
+   const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  }
   return (
     <>
+      <button onClick={handleLogout}>Logout</button>
       {proposals.map((proposal) => (
         <div key={proposal._id}>
           <h3>{proposal.title}</h3>
