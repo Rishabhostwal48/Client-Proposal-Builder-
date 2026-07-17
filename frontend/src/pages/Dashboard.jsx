@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { generatePdf } from "../utils/generatePdf";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -142,6 +143,11 @@ const Dashboard = () => {
             style={{ marginLeft: "10px" }}
           >
             Delete
+          </button>
+          <button
+            onClick={() =>{generatePdf(proposal)}}
+          >
+            Generate PDF
           </button>
         </div>
       ))}
