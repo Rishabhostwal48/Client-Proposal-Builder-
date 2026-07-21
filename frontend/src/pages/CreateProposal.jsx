@@ -40,7 +40,7 @@ const CreateProposal = () => {
       Price: <input type="number" name="price" onChange={handleChange} />
       Timeline: <input type="text" name="timeline" onChange={handleChange} />
         <button type="submit" >Create Proposal</button>
-    </form>
+    </form> 
   );
 };
 
