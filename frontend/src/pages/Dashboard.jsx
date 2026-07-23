@@ -38,6 +38,7 @@ const Dashboard = () => {
     try {
       await api.delete(`/proposal/${id}`);
       fetchProposals();
+      alert("Proposal deleted successfully.");
     } catch (error) {
       console.error(error);
       alert("Unable to delete proposal.");
@@ -69,13 +70,15 @@ const Dashboard = () => {
     return (
       <div>
         <h2>No proposals found.</h2>
-        <p>Create your first proposal.</p>
+        <p>Start by creating your first proposal.</p>
 
-        <button onClick={() => navigate("/create-proposal")}>
-          + New Proposal
+        <button onClick={() => navigate("/create-proposal")} style={{ marginLeft: "10px" }}>
+           Create Proposal
         </button>
 
-        <button onClick={handleLogout}>Logout</button>
+        <button onClick={handleLogout} style={{ marginLeft: "10px" }}>
+          Logout
+        </button>
       </div>
     );
   }
@@ -86,11 +89,11 @@ const Dashboard = () => {
 
       <h3>Total Proposals : {proposals.length}</h3>
 
-      <button onClick={() => navigate("/create-proposal")}>
+      <button onClick={() => navigate("/create-proposal")} style={{ marginLeft: "10px" }}>
         + New Proposal
       </button>
 
-      <button onClick={handleLogout}>Logout</button>
+      <button onClick={handleLogout} style={{ marginLeft: "10px" }}>Logout</button>
 
       <hr />
 
@@ -119,7 +122,7 @@ const Dashboard = () => {
           </p>
 
           <p>
-            <strong>Price:</strong> ₹{proposal.price}
+            <strong>Budget:</strong> ₹{proposal.price}
           </p>
 
           <p>
@@ -145,7 +148,8 @@ const Dashboard = () => {
             Delete
           </button>
           <button
-            onClick={() =>{generatePdf(proposal)}}
+            onClick={() => { generatePdf(proposal) }}
+            style={{ marginLeft: "10px" }}
           >
             Generate PDF
           </button>
